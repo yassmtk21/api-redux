@@ -13,7 +13,7 @@ function allPokemonsList() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="bg-[#1A1A2E] pt-10 px-10 grid grid-cols-3 gap-4">
       {pokemons.map((pok) => {
         const { id, name } = pok;
         return (
