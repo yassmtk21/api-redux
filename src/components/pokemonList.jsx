@@ -7,8 +7,14 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+import { useDispatch } from "react-redux";
+import { fetchPokemonDetailsAsync } from "../features/pokemons/allPokemonsSlice";
 
-function pokemonList({ id, name }) {
+function pokemonList({ id, name, url }) {
+  const dispatch = useDispatch();
+  const handleDetailsClick = () => {
+    dispatch(fetchPokemonDetailsAsync(url));
+  };
   return (
     <Card>
       <CardHeader floated={false} className="flex justify-center">
@@ -24,25 +30,27 @@ function pokemonList({ id, name }) {
         </Typography>
       </CardBody>
       <CardFooter className="flex justify-center pt-2">
-        <a href="">
-          <Button size="sm" className="flex items-center gap-2">
-            More Details
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </Button>
-        </a>
+        <Button
+          size="sm"
+          className="flex items-center gap-2"
+          onClick={handleDetailsClick}
+        >
+          More Details
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-4 w-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </Button>
       </CardFooter>
     </Card>
   );

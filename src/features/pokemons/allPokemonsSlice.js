@@ -10,10 +10,19 @@ export const fetchPokemonsAsync = createAsyncThunk(
   }
 );
 
+export const fetchPokemonDetailsAsync = createAsyncThunk(
+  "pokemons/fetchPokemonDetails",
+  async (url) => {
+    const response = await fetch(url);
+    return response.json();
+  }
+);
+
 const pokemonsSlice = createSlice({
   name: "pokemons",
   initialState: {
     pokemons: [],
+    selectedPokemon: null,
     isLoading: false,
     hasError: false,
   },
@@ -32,11 +41,15 @@ const pokemonsSlice = createSlice({
           const id = parseInt(getId(pokemon.url, 10));
           return { id, ...pokemon };
         });
+
         state.pokemons = pokemonResultList;
       })
       .addCase(fetchPokemonsAsync.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
+      })
+      .addCase(fetchPokemonDetailsAsync.fulfilled, (state, action) => {
+        state.selectedPokemon = action.payload;
       });
   },
 });
