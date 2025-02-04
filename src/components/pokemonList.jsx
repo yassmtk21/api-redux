@@ -10,11 +10,16 @@ import {
 import { useDispatch } from "react-redux";
 import { fetchPokemonDetailsAsync } from "../features/pokemons/allPokemonsSlice";
 
-
 function pokemonList({ id, name, url }) {
   const dispatch = useDispatch();
   const handleDetailsClick = () => {
     dispatch(fetchPokemonDetailsAsync(url));
+  };
+
+  const handleScroll = (event) => {
+    const element = event.target;
+    let scrollTop = element.scrollTop();
+    console.log(scrollTop);
   };
   return (
     <>
@@ -59,7 +64,6 @@ function pokemonList({ id, name, url }) {
           </Button>
         </CardFooter>
       </Card>
-      
     </>
   );
 }
