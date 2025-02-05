@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchPokemons } from "../../api/api";
-import { getId } from "../../helpers/pokemonUtils";
+import { transformPokemonList } from "../../utils/pokemonUtils";
 
 export const fetchPokemonsAsync = createAsyncThunk(
   "pokemons/fetchPokemons",
@@ -36,13 +36,7 @@ const pokemonsSlice = createSlice({
       .addCase(fetchPokemonsAsync.fulfilled, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
-        const { results } = action.payload;
-        const pokemonResultList = results.map((pokemon) => {
-          const id = parseInt(getId(pokemon.url, 10));
-          return { id, ...pokemon };
-        });
-
-        state.pokemons = pokemonResultList;
+        state.pokemons = transformPokemonList(action.payload.results);
       })
       .addCase(fetchPokemonsAsync.rejected, (state) => {
         state.isLoading = false;

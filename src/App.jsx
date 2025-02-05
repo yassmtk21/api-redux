@@ -6,7 +6,6 @@ import PokemoneList from "./features/pokemons/allPokemonsList";
 
 function App() {
 
-
   return (
     <Provider store={store}>
       <PokemoneList />

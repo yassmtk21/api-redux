@@ -16,11 +16,7 @@ function pokemonList({ id, name, url }) {
     dispatch(fetchPokemonDetailsAsync(url));
   };
 
-  const handleScroll = (event) => {
-    const element = event.target;
-    let scrollTop = element.scrollTop();
-    console.log(scrollTop);
-  };
+
   return (
     <>
       <Card>

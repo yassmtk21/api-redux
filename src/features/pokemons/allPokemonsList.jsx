@@ -10,15 +10,24 @@ function allPokemonsList() {
   const pokemonDetails = useSelector((state) => state.pokemon.selectedPokemon);
   const isLoading = useSelector((state) => state.pokemon.isLoading);
   const hasError = useSelector((state) => state.pokemon.hasError);
-  console.log(pokemonDetails === undefined ? "" : pokemonDetails);
   useEffect(() => {
     dispatch(fetchPokemonsAsync());
   }, [dispatch]);
 
+  const handleScroll = (event) => {
+    const element = event.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      console.log("get more pokemon");
+    }
+  };
+  const filteredPokemon = pokemons.filter((pok) => pok.id <= 20);
   return (
     <>
-      <div className="bg-[#1A1A2E] pt-10 px-10 grid grid-cols-3 gap-4">
-        {pokemons.map((pok) => {
+      <div
+        className="bg-[#1A1A2E] h-dvh pt-10 px-10 grid grid-cols-3 gap-4 overflow-auto"
+        onScroll={handleScroll}
+      >
+        {filteredPokemon.map((pok) => {
           const { id, name, url } = pok;
           return (
             <div key={id}>
