@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonsReducer from "../features/pokemons/allPokemonsSlice";
+import pokemonsReducer from "../redux/slice/allPokemonsSlice";
 
 const store = configureStore({
   reducer: {

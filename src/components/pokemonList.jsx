@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -7,16 +7,8 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-import { useDispatch } from "react-redux";
-import { fetchPokemonDetailsAsync } from "../features/pokemons/allPokemonsSlice";
 
-function pokemonList({ id, name, url }) {
-  const dispatch = useDispatch();
-  const handleDetailsClick = () => {
-    dispatch(fetchPokemonDetailsAsync(url));
-  };
-
-
+function pokemonList({ id, name, onOpenModal }) {
   return (
     <>
       <Card>
@@ -40,7 +32,7 @@ function pokemonList({ id, name, url }) {
           <Button
             size="sm"
             className="flex items-center gap-2"
-            onClick={handleDetailsClick}
+            onClick={onOpenModal}
           >
             More Details
             <svg
