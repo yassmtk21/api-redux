@@ -1,12 +1,12 @@
-import { ALL_POKEMONS, API_URL } from "../../config/config";
+import { API_URL } from "../../config/config";
 import { parseName } from "../../helpers/helper";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getPokemons = createAsyncThunk(
   "pokemons/All",
-  async ({ offset, limit }, { rejectWithValue }) => {
+  async ({ limit, offset }, { rejectWithValue }) => {
     try {
-      const result = await consultPokemons(offset, limit);
+      const result = await consultPokemons(limit, offset);
       return result;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -14,12 +14,15 @@ export const getPokemons = createAsyncThunk(
   }
 );
 
-const consultPokemons = async (offset, limit) => {
+const consultPokemons = async (limit, offset) => {
   try {
     const response = await fetch(
-      `${API_URL}/pokemon?offset=${offset}&limit=${limit}`
+      `${API_URL}/pokemon?limit=${limit}&offset=${offset}`
     );
     const data = await response.json();
+    if (!data.results.length) {
+      return [];
+    }
 
     const pokemonDetails = await Promise.all(
       data.results.map(async (pokemon) => {

@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-function pokemonInfo({ open, onCloseModal }) {
-  const selectedPokemon = useSelector((state) => state.pokemon.selectedPokemon);
+function pokemonInfo({ open, onCloseModal}) {
 
   return (
     <div

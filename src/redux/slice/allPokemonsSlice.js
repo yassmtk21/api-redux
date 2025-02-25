@@ -7,10 +7,15 @@ const pokemonsSlice = createSlice({
     pokemons: [],
     offset: 0,
     limit: 20,
+    hasMore: true,
     isLoading: false,
     hasError: false,
   },
-  reducers: {},
+  reducers: {
+    loadMorePokemons: (state) => {
+      state.offset += state.limit;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getPokemons.pending, (state) => {
@@ -21,14 +26,16 @@ const pokemonsSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
 
-        // Avoid adding duplicates
-        const newPokemons = action.payload.filter(
-          (newPokemon) =>
-            !state.pokemons.some((existing) => existing.id === newPokemon.id)
-        );
-
-        state.pokemons = [...state.pokemons, ...newPokemons];
-        state.offset += state.limit; // Update offset properly
+        if (action.payload.length === 0) {
+          state.hasMore = false;
+        }
+        if (state.offset === 0) {
+          // ✅ On first fetch, replace Pokémon list
+          state.pokemons = action.payload;
+        } else {
+          // ✅ On subsequent fetches, append new Pokémon
+          state.pokemons = [...state.pokemons, ...action.payload];
+        }
       })
       .addCase(getPokemons.rejected, (state, action) => {
         state.isLoading = false;
@@ -36,5 +43,5 @@ const pokemonsSlice = createSlice({
       });
   },
 });
-
+export const { loadMorePokemons } = pokemonsSlice.actions;
 export default pokemonsSlice.reducer;
